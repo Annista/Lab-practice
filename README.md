@@ -2,3 +2,5 @@
 Hello! this is text you want others to read.
 This is more text in the README.md file.  
 ![workflow](https://github.com/Annista/Lab-practice/actions/workflows/main.yml/badge.svg)
+[![LICENSE](https://img.shields.io/github/license/<github-Annista/devops.svg?style=flat-square)](https://github.com/<github-Annista>/devops/blob/master/LICENSE)
+[![Releases](https://img.shields.io/github/release/<github-Annista>/devops/all.svg?style=flat-square)](https://github.com/<github-Annista>/devops/releases)
