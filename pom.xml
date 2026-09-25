@@ -43,7 +43,7 @@
                     <finalName>semApp</finalName>
                     <archive>
                         <manifest>
-                            <mainClass>com.napier.sem.App</mainClass>
+                            <mainClass>org.example.App</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>
