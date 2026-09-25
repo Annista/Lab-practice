@@ -8,10 +8,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v5
-      - name: Set up JDK 17
+      - name: Set up JDK 26
         uses: actions/setup-java@v5
         with:
-          java-version: '17'
+          java-version: '26'
           distribution: 'temurin'
       - name: Setup network
         run: |
