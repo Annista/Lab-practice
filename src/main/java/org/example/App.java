@@ -2,6 +2,7 @@ package org.example;
 
 import java.sql.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 public class App
 {
@@ -131,7 +132,7 @@ public class App
     }
 
 
-    public void getSalaryReport(String title){
+    public void getSalaryRoleReport(String title){
 
         try{
             // Create an SQL statement
@@ -188,6 +189,53 @@ public class App
 
     }
 
+
+    public ArrayList<Employee> getAllSalaries(){
+        try{
+            // Create an SQL statement
+            Statement stmt = con.createStatement();
+            // Create string for SQL statement
+            String strSelect =
+                    " SELECT e.emp_no AS employee_id, e.first_name AS employee_first_name, e.last_name AS employee_last_name, s.salary "
+                    + " FROM employees e, salaries s "
+                    + " WHERE e.emp_no = s.emp_no AND s.to_date = ? "
+                    + " ORDER BY e.emp_no ASC";
+
+            try (PreparedStatement pstmt = con.prepareStatement(strSelect)) {
+                // Define your criteria using modern Java Date APIs
+                LocalDate targetDate = LocalDate.of(9999, 1, 1);
+
+                pstmt.setObject(1, targetDate);
+
+                // Execute SQL statement
+                ResultSet rset = pstmt.executeQuery();
+
+                // Return new employee
+                ArrayList<Employee> employees = new ArrayList<Employee>();
+                // While there is a valid row, employee
+                //record will be retrieved and displayed
+                while (rset.next()) {
+                    Employee emp = new Employee();
+                    emp.emp_no = rset.getInt("employee_id");
+                    emp.first_name = rset.getString("employee_first_name");
+                    emp.last_name = rset.getString("employee_last_name");
+                    emp.salary = rset.getInt("s.salary");
+                    employees.add(emp);
+
+
+                }
+                return employees;
+            }
+
+
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            System.out.println("Failed to get salary details");
+            return null;
+        }
+}
+
     public void displayEmployee(Employee emp)
     {
         if (emp != null)
@@ -222,7 +270,15 @@ public class App
         // Display results
         a.displayEmployee(emp);*/
 
-        a.getSalaryReport("Engineer");
+       // a.getSalaryRoleReport("Engineer");
+
+        // Extract employee salary information
+        ArrayList<Employee> employees = a.getAllSalaries();
+
+        // Test the size of the returned data - should be 240124
+        System.out.println(employees.size());
+
+
 
 
         // Disconnect from database
