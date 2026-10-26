@@ -2,6 +2,7 @@ package org.example;
 
 import java.sql.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 public class App
 {
@@ -130,6 +131,111 @@ public class App
         }
     }
 
+
+    public void getSalaryRoleReport(String title){
+
+        try{
+            // Create an SQL statement
+            Statement stmt = con.createStatement();
+            // Create string for SQL statement
+            String strSelect =
+
+                    " SELECT e.emp_no AS employee_id, e.first_name AS employee_first_name, e.last_name AS employee_last_name, s.salary"
+                    + " FROM employees e, salaries s, titles"
+
+                    + " WHERE e.emp_no = s.emp_no"
+                    + " AND e.emp_no = titles.emp_no"
+                    + " AND s.to_date = ? "
+                    + " AND titles.to_date = ? "
+                    + " AND titles.title = ? "
+                    + " ORDER BY e.emp_no ASC";
+
+
+            try (PreparedStatement pstmt = con.prepareStatement(strSelect)) {
+                // Define your criteria using modern Java Date APIs
+                LocalDate targetDate = LocalDate.of(9999, 1, 1);
+
+                pstmt.setObject(1,targetDate);
+                pstmt.setObject(2, targetDate);
+                pstmt.setObject(3, title);
+
+                // Execute SQL statement
+                ResultSet rset = pstmt.executeQuery();
+
+
+                // Return new employee
+                Employee emp = new Employee();
+                // While there is a valid row, employee
+                //record will be retrieved and displayed
+                while (rset.next()) {
+                    emp.emp_no = rset.getInt("employee_id");
+                    emp.first_name = rset.getString("employee_first_name");
+                    emp.last_name = rset.getString("employee_last_name");
+                    emp.salary = rset.getInt("s.salary");
+
+                    //return emp;
+
+                    displaySalaryRecord(emp);
+
+                }
+            }
+
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+            System.out.println("Failed to get employee details");
+            //return null;
+
+        }
+
+    }
+
+
+    public ArrayList<Employee> getAllSalaries(){
+        try{
+            // Create an SQL statement
+            Statement stmt = con.createStatement();
+            // Create string for SQL statement
+            String strSelect =
+                    " SELECT e.emp_no AS employee_id, e.first_name AS employee_first_name, e.last_name AS employee_last_name, s.salary "
+                    + " FROM employees e, salaries s "
+                    + " WHERE e.emp_no = s.emp_no AND s.to_date = ? "
+                    + " ORDER BY e.emp_no ASC";
+
+            try (PreparedStatement pstmt = con.prepareStatement(strSelect)) {
+                // Define your criteria using modern Java Date APIs
+                LocalDate targetDate = LocalDate.of(9999, 1, 1);
+
+                pstmt.setObject(1, targetDate);
+
+                // Execute SQL statement
+                ResultSet rset = pstmt.executeQuery();
+
+                // Return new employee
+                ArrayList<Employee> employees = new ArrayList<Employee>();
+                // While there is a valid row, employee
+                //record will be retrieved and displayed
+                while (rset.next()) {
+                    Employee emp = new Employee();
+                    emp.emp_no = rset.getInt("employee_id");
+                    emp.first_name = rset.getString("employee_first_name");
+                    emp.last_name = rset.getString("employee_last_name");
+                    emp.salary = rset.getInt("s.salary");
+                    employees.add(emp);
+
+
+                }
+                return employees;
+            }
+
+
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            System.out.println("Failed to get salary details");
+            return null;
+        }
+}
+
     public void displayEmployee(Employee emp)
     {
         if (emp != null)
@@ -145,6 +251,31 @@ public class App
         }
     }
 
+    public void displaySalaryRecord(Employee emp){
+
+        if (emp != null){
+            System.out.println(emp.emp_no +"\t" + emp.first_name +"\t" + emp.last_name +"\t" + emp.salary +"\n" );
+        }
+    }
+
+    /**
+     * Prints a list of employees.
+     * @param employees The list of employees to print.
+     */
+    public void printSalaries(ArrayList<Employee> employees)
+    {
+        // Print header
+        System.out.println(String.format("%-10s %-15s %-20s %-8s", "Emp No", "First Name", "Last Name", "Salary"));
+        // Loop over all employees in the list
+        for (Employee emp : employees)
+        {
+            String emp_string =
+                    String.format("%-10s %-15s %-20s %-8s",
+                            emp.emp_no, emp.first_name, emp.last_name, emp.salary);
+            System.out.println(emp_string);
+        }
+    }
+
     public static void main(String[] args)
     {
         // Create new Application
@@ -153,9 +284,18 @@ public class App
         // Connect to database
         a.connect();
         // Get Employee
-        Employee emp = a.getEmployee(255530);
+       /* Employee emp = a.getEmployee(255530);
         // Display results
-        a.displayEmployee(emp);
+        a.displayEmployee(emp);*/
+
+       // a.getSalaryRoleReport("Engineer");
+
+        // Extract employee salary information
+        ArrayList<Employee> employees = a.getAllSalaries();
+        a.printSalaries(employees);
+
+
+
 
         // Disconnect from database
         a.disconnect();
