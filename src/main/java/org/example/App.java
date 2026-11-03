@@ -224,8 +224,10 @@ public class App {
     }
 
     public void displayEmployee(Employee emp) {
-        if (emp != null) {
-            Employee emp_mang= getEmployee(emp.manager.emp_no); //Create employee object for manager to obtain manager information
+        if (emp != null && emp.dept_name != null) {
+
+            //Create employee object for manager to obtain manager information
+           /* Employee emp_mang= getEmployee(emp.manager.emp_no);*/
             System.out.println(
                     emp.emp_no + " "
                             + emp.first_name + " "
@@ -233,8 +235,9 @@ public class App {
                             + emp.title + "\n"
                             + "Salary:" + emp.salary + "\n"
                             + emp.dept_name.dept_name + "\n"  //Rename emp.dept_name since it will be confused with dept_name.dept_name
-                            + "Manager ID: " + emp_mang.emp_no +"\n"
-                            + "Manager Name: " + emp_mang.first_name +"\t" + emp_mang.last_name +"\n");
+                           /* + "Manager ID: " + emp_mang.emp_no +"\n"
+                            + "Manager Name: " + emp_mang.first_name +"\t" + emp_mang.last_name +"\n"*/
+                            +"Manager: " + emp.manager.emp_no +"\n");
 
 
 
@@ -254,10 +257,21 @@ public class App {
      * @param employees The list of employees to print.
      */
     public void printSalaries(ArrayList<Employee> employees) {
+
+        // Check employees is not null
+        if (employees == null)
+        {
+            System.out.println("No employees");
+            return;
+        }
+
         // Print header
         System.out.println(String.format("%-10s %-15s %-20s %-8s", "Emp No", "First Name", "Last Name", "Salary"));
         // Loop over all employees in the list
         for (Employee emp : employees) {
+            if (emp == null)
+                continue;
+
             String emp_string =
                     String.format("%-10s %-15s %-20s %-8s",
                             emp.emp_no, emp.first_name, emp.last_name, emp.salary);
