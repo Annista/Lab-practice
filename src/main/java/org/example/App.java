@@ -293,10 +293,14 @@ public class App {
                     " SELECT d.dept_no AS depart_num, d.dept_name AS depart_name, dm.emp_no AS mang_num"
                     + " FROM departments d, dept_manager dm "
                     + " WHERE d.dept_no = dm.dept_no"
-                    + " AND d.dept_name = ? ";
+                    + " AND d.dept_name = ? "
+                            + " AND dm.to_date = ? ";
 
             try( PreparedStatement pstmt = con.prepareStatement(strSelect)){
+                LocalDate targetDate = LocalDate.of(9999, 1, 1);
+
                 pstmt.setObject(1, dept_name);
+                pstmt.setObject(2, targetDate);
 
                 ResultSet rset = pstmt.executeQuery();
                 if (rset.next()){
