@@ -67,27 +67,24 @@ public class App {
             String strSelect =
                     "SELECT e.emp_no AS employee_id, e.first_name AS employee_first_name, e.last_name AS employee_last_name, t.title, s.salary, d.dept_name, dm.emp_no AS manager_employee_id "
                             + "FROM employees e"
-                            + " INNER JOIN titles t ON e.emp_no = t.emp_no"
-                            + " INNER JOIN salaries s ON e.emp_no = s.emp_no"
-                            + " INNER JOIN dept_emp de ON e.emp_no = de.emp_no"
-                            + " INNER JOIN departments d ON de.dept_no = d.dept_no"
-                            + " INNER JOIN dept_manager dm ON d.dept_no = dm.dept_no"
+                            + " LEFT JOIN titles t ON e.emp_no = t.emp_no AND t.to_date = ? "
+                            + " LEFT JOIN salaries s ON e.emp_no = s.emp_no AND s.to_date = ? "
+                            + " LEFT JOIN dept_emp de ON e.emp_no = de.emp_no AND de.to_date = ? "
+                            + " LEFT JOIN departments d ON de.dept_no = d.dept_no"
+                            + " LEFT JOIN dept_manager dm ON d.dept_no = dm.dept_no AND dm.to_date = ? "
 
-                            + " WHERE e.emp_no = ? "
-                            + " AND t.to_date = ? "
-                            + " AND s.to_date = ? "
-                            + " AND de.to_date = ? "
-                            + "AND dm.to_date = ? ";
+                            + " WHERE e.emp_no = ? ";
+
 
             try (PreparedStatement pstmt = con.prepareStatement(strSelect)) {
                 // 2. Define your criteria using modern Java Date APIs
                 LocalDate targetDate = LocalDate.of(9999, 1, 1);
 
-                pstmt.setObject(1, ID);
+                pstmt.setObject(1, targetDate);
                 pstmt.setObject(2, targetDate);
                 pstmt.setObject(3, targetDate);
                 pstmt.setObject(4, targetDate);
-                pstmt.setObject(5, targetDate);
+                pstmt.setObject(5, ID);
 
 
                 // Execute SQL statement
@@ -112,8 +109,11 @@ public class App {
 
 
                     return emp;
-                } else
+                } else{
+                    System.out.println("No such employee found");
                     return null;
+                }
+
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -314,7 +314,7 @@ public class App {
 
                     return deptmt;
                 }else{
-
+                    System.out.println("Employee ID not found!!!");
                     return null;
                 }
 
@@ -399,10 +399,26 @@ public class App {
         {
             Statement stmt = con.createStatement();
             String strUpdate =
-                    "INSERT INTO employees (emp_no, first_name, last_name, birth_date, gender, hire_date) " +
-                            "VALUES (" + emp.emp_no + ", '" + emp.first_name + "', '" + emp.last_name + "', " +
-                            "'9999-01-01', 'M', '9999-01-01')";
-            stmt.execute(strUpdate);
+                    "INSERT INTO employees (emp_no, first_name, last_name, birth_date, gender, hire_date)"
+            + " VALUES ( ?, ?, ?, ?, ?, ?)";
+            try(PreparedStatement pstmt = con.prepareStatement(strUpdate)){
+                LocalDate targetDate = LocalDate.of(9999, 1, 1);
+                pstmt.setInt(1, emp.emp_no);
+                pstmt.setString(2, emp.first_name);
+                pstmt.setString(3, emp.last_name);
+                pstmt.setObject(4, targetDate);
+                pstmt.setString(5, String.valueOf('M'));
+                pstmt.setObject(6, targetDate);
+
+                // Execute the insert and get the number of affected rows
+                int rowsInserted = pstmt.executeUpdate();
+                System.out.println("Rows inserted: " + rowsInserted);
+                if (emp==null){
+                    System.out.println("Employee emp is empty, cannot update report");
+                }
+            }
+
+            //stmt.execute(strUpdate);
         }
         catch (Exception e)
         {
@@ -422,12 +438,21 @@ public class App {
             a.connect(args[0], Integer.parseInt(args[1]));
         }
 
-        Department dept = a.getDepartment("Development");
+        /*Department dept = a.getDepartment("Development");
         ArrayList<Employee> employees = a.getSalariesByDepartment(dept);
 
 
         // Print salary report
-        a.printSalaries(employees);
+        a.printSalaries(employees);*/
+
+        Employee emp = new Employee();
+        emp.emp_no = 1831960;
+        emp.first_name = "Kevin";
+        emp.last_name = "Chalmers";
+        a.addEmployee(emp);
+        Employee emp2 = a.getEmployee(1831960);
+       System.out.println("Employee Number: " +emp2.emp_no);
+
 
         // Disconnect from database
         a.disconnect();

@@ -52,18 +52,18 @@ public class AppIntegrationTest
         assertNull(dept);
     }
 
-    /*@Test
+   @Test
     void testAddEmployee()
     {
         Employee emp = new Employee();
-        emp.emp_no = 500000;
+        emp.emp_no = 500005;
         emp.first_name = "Kevin";
         emp.last_name = "Chalmers";
         app.addEmployee(emp);
-        emp = app.getEmployee(500000);
-        assertEquals(emp.emp_no, 500000);
+        emp = app.getEmployee(500005);
+        assertEquals(emp.emp_no, 500005);
         assertEquals(emp.first_name, "Kevin");
         assertEquals(emp.last_name, "Chalmers");
-    }*/
+    }
 
 }
