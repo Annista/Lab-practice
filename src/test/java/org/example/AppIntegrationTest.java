@@ -70,7 +70,16 @@ public class AppIntegrationTest
     void testGetAllSalaries(){
         ArrayList<Employee> employees = new ArrayList<Employee>();
         employees = app.getAllSalaries();
-        assertNotNull(employees, "List should not be null!!!");
+        assertNotNull(employees, "Salary Report should not be null!!!");
 }
+
+  @Test
+   void testGetSalariesByDepartment(){
+        Department sales_dept= app.getDepartment("Sales");
+        ArrayList<Employee> employees = new ArrayList<Employee>();
+        employees= app.getSalariesByDepartment(sales_dept);
+        assertNotNull(employees, "Department Salary Report should not be null!!!");
+
+  }
 
 }

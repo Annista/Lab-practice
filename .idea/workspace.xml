@@ -7,6 +7,7 @@
     <list default="true" id="8e76c826-80b9-478c-86c8-bc929149a164" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/org/example/AppIntegrationTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/example/AppIntegrationTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/org/example/AppIntegrationTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/org/example/AppIntegrationTest.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -46,6 +47,7 @@
     "JUnit.AppIntegrationTest.testAddEmployee.executor": "Run",
     "JUnit.AppIntegrationTest.testGetAllSalaries.executor": "Run",
     "JUnit.AppIntegrationTest.testGetEmployeeIsNull.executor": "Run",
+    "JUnit.AppIntegrationTest.testGetSalariesByDepartment.executor": "Run",
     "JUnit.AppTest.executor": "Run",
     "Maven.Lab-practice [package].executor": "Run",
     "ModuleVcsDetector.initialDetectionPerformed": "true",
@@ -67,20 +69,7 @@
       <recent name="org.example" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.AppIntegrationTest.testGetAllSalaries">
-    <configuration name="App" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="org.example.App" />
-      <module name="Lab-practice" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="org.example.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
+  <component name="RunManager" selected="JUnit.AppIntegrationTest.testGetSalariesByDepartment">
     <configuration name="AppIntegrationTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="Lab-practice" />
       <extension name="coverage">
@@ -129,6 +118,22 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="AppIntegrationTest.testGetSalariesByDepartment" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="Lab-practice" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.example.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="org.example" />
+      <option name="MAIN_CLASS_NAME" value="org.example.AppIntegrationTest" />
+      <option name="METHOD_NAME" value="testGetSalariesByDepartment" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="Unnamed" type="JUnit" factoryName="JUnit" nameIsGenerated="true">
       <module name="Lab-practice" />
       <extension name="coverage">
@@ -165,20 +170,20 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Application.App" />
       <item itemvalue="Docker.docker-compose.yml.db: Compose Deployment" />
       <item itemvalue="JUnit.Unnamed" />
       <item itemvalue="JUnit.AppIntegrationTest.testGetAllSalaries" />
+      <item itemvalue="JUnit.AppIntegrationTest.testGetSalariesByDepartment" />
       <item itemvalue="JUnit.AppIntegrationTest" />
       <item itemvalue="JUnit.AppIntegrationTest.testAddEmployee" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.AppIntegrationTest.testGetSalariesByDepartment" />
         <item itemvalue="JUnit.AppIntegrationTest.testGetAllSalaries" />
         <item itemvalue="Docker.docker-compose.yml.db: Compose Deployment" />
         <item itemvalue="JUnit.AppIntegrationTest" />
         <item itemvalue="JUnit.AppIntegrationTest.testAddEmployee" />
-        <item itemvalue="Application.App" />
       </list>
     </recent_temporary>
   </component>
