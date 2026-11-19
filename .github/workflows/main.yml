@@ -24,6 +24,7 @@ jobs:
         with:
           java-version: '26'
           distribution: 'temurin'
+          cache: 'maven'
       - name: Unit Tests and CodeCov
         run: |
           docker build -t database ./db 
@@ -56,6 +57,7 @@ jobs:
         with:
           java-version: '26'
           distribution: 'temurin'
+          cache: 'maven'
       - name: Integration Tests and CodeCov
         run: |
          docker build -t database ./db 
@@ -85,6 +87,7 @@ jobs:
         with:
           java-version: '26'
           distribution: 'temurin'
+          cache: 'maven'
       - name: Package and Run docker compose
         run: |
           mvn package -DskipTests
