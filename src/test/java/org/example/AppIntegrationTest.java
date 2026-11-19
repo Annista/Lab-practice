@@ -66,4 +66,11 @@ public class AppIntegrationTest
         assertEquals(emp.last_name, "Chalmers");
     }
 
+    @Test
+    void testGetAllSalaries(){
+        ArrayList<Employee> employees = new ArrayList<Employee>();
+        employees = app.getAllSalaries();
+        assertNotNull(employees, "List should not be null!!!");
+}
+
 }

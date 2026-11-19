@@ -6,20 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="8e76c826-80b9-478c-86c8-bc929149a164" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/App.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/org/example/AppIntegrationTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/example/AppIntegrationTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/org/example/App.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/org/example/Department.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/org/example/Employee.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/devops.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/createdFiles.lst" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-org.example.AppTest.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/surefire-reports/org.example.AppTest.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/test-classes/org/example/AppIntegrationTest.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/test-classes/org/example/AppTest.class" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -57,6 +44,7 @@
     "Docker.docker-compose.yml: Compose Deployment.executor": "Run",
     "JUnit.AppIntegrationTest.executor": "Run",
     "JUnit.AppIntegrationTest.testAddEmployee.executor": "Run",
+    "JUnit.AppIntegrationTest.testGetAllSalaries.executor": "Run",
     "JUnit.AppIntegrationTest.testGetEmployeeIsNull.executor": "Run",
     "JUnit.AppTest.executor": "Run",
     "Maven.Lab-practice [package].executor": "Run",
@@ -79,7 +67,7 @@
       <recent name="org.example" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.AppIntegrationTest">
+  <component name="RunManager" selected="JUnit.AppIntegrationTest.testGetAllSalaries">
     <configuration name="App" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="org.example.App" />
       <module name="Lab-practice" />
@@ -103,6 +91,7 @@
       </extension>
       <option name="PACKAGE_NAME" value="org.example" />
       <option name="MAIN_CLASS_NAME" value="org.example.AppIntegrationTest" />
+      <option name="METHOD_NAME" value="" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -124,7 +113,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="AppIntegrationTest.testGetEmployeeIsNull" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="AppIntegrationTest.testGetAllSalaries" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="Lab-practice" />
       <extension name="coverage">
         <pattern>
@@ -134,8 +123,24 @@
       </extension>
       <option name="PACKAGE_NAME" value="org.example" />
       <option name="MAIN_CLASS_NAME" value="org.example.AppIntegrationTest" />
-      <option name="METHOD_NAME" value="testGetEmployeeIsNull" />
+      <option name="METHOD_NAME" value="testGetAllSalaries" />
       <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Unnamed" type="JUnit" factoryName="JUnit" nameIsGenerated="true">
+      <module name="Lab-practice" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.example.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="org.example" />
+      <option name="MAIN_CLASS_NAME" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="TEST_OBJECT" value="package" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -159,13 +164,21 @@
       </deployment>
       <method v="2" />
     </configuration>
+    <list>
+      <item itemvalue="Application.App" />
+      <item itemvalue="Docker.docker-compose.yml.db: Compose Deployment" />
+      <item itemvalue="JUnit.Unnamed" />
+      <item itemvalue="JUnit.AppIntegrationTest.testGetAllSalaries" />
+      <item itemvalue="JUnit.AppIntegrationTest" />
+      <item itemvalue="JUnit.AppIntegrationTest.testAddEmployee" />
+    </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.AppIntegrationTest.testGetAllSalaries" />
+        <item itemvalue="Docker.docker-compose.yml.db: Compose Deployment" />
         <item itemvalue="JUnit.AppIntegrationTest" />
         <item itemvalue="JUnit.AppIntegrationTest.testAddEmployee" />
         <item itemvalue="Application.App" />
-        <item itemvalue="JUnit.AppIntegrationTest.testGetEmployeeIsNull" />
-        <item itemvalue="Docker.docker-compose.yml.db: Compose Deployment" />
       </list>
     </recent_temporary>
   </component>
@@ -214,6 +227,12 @@
           <url>file://$PROJECT_DIR$/src/main/java/org/example/App.java</url>
           <line>6</line>
           <option name="timeStamp" value="4" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-field">
+          <url>file://$PROJECT_DIR$/src/test/java/org/example/AppIntegrationTest.java</url>
+          <line>12</line>
+          <properties field="app" class="org.example.AppIntegrationTest" />
+          <option name="timeStamp" value="5" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
