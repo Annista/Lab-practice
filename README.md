@@ -14,4 +14,10 @@ License
 Release
 [![Releases](https://img.shields.io/github/release/Annista/Lab-practice/all.svg?style=flat-square)](https://github.com/Annista/Lab-practice/releases) <br>
 
+Develop Branch Code Coverage
+[![codecov](https://codecov.io/github/Annista/Lab-practice/branch/develop/graph/badge.svg?token=UTIG7C1AQG)](https://codecov.io/github/Annista/Lab-practice) <br>
+
+Main Branch Code Coverage
+[![codecov](https://codecov.io/github/Annista/Lab-practice/branch/main/graph/badge.svg?token=UTIG7C1AQG)](https://codecov.io/github/Annista/Lab-practice) <br>
+
 
