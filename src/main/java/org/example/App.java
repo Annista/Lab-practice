@@ -14,7 +14,8 @@ public class App {
     /**
      * Connect to the MySQL database.
      */
-    public void connect() {
+
+    public void connect(String location, int delay) {
         try {
             // Load Database driver
             Class.forName("com.mysql.cj.jdbc.Driver");
@@ -28,13 +29,15 @@ public class App {
             System.out.println("Connecting to database...");
             try {
                 // Wait a bit for db to start
-                Thread.sleep(30000);
+                Thread.sleep(delay);
                 // Connect to database
-                con = DriverManager.getConnection("jdbc:mysql://db:3306/employees?allowPublicKeyRetrieval=true&useSSL=false", "root", "example");
+                con = DriverManager.getConnection("jdbc:mysql://" + location
+                                + "/employees?allowPublicKeyRetrieval=true&useSSL=false",
+                        "root", "example");
                 System.out.println("Successfully connected");
                 break;
             } catch (SQLException sqle) {
-                System.out.println("Failed to connect to database attempt " + Integer.toString(i));
+                System.out.println("Failed to connect to database attempt " +                                  Integer.toString(i));
                 System.out.println(sqle.getMessage());
             } catch (InterruptedException ie) {
                 System.out.println("Thread interrupted? Should not happen.");
@@ -64,27 +67,24 @@ public class App {
             String strSelect =
                     "SELECT e.emp_no AS employee_id, e.first_name AS employee_first_name, e.last_name AS employee_last_name, t.title, s.salary, d.dept_name, dm.emp_no AS manager_employee_id "
                             + "FROM employees e"
-                            + " INNER JOIN titles t ON e.emp_no = t.emp_no"
-                            + " INNER JOIN salaries s ON e.emp_no = s.emp_no"
-                            + " INNER JOIN dept_emp de ON e.emp_no = de.emp_no"
-                            + " INNER JOIN departments d ON de.dept_no = d.dept_no"
-                            + " INNER JOIN dept_manager dm ON d.dept_no = dm.dept_no"
+                            + " LEFT JOIN titles t ON e.emp_no = t.emp_no AND t.to_date = ? "
+                            + " LEFT JOIN salaries s ON e.emp_no = s.emp_no AND s.to_date = ? "
+                            + " LEFT JOIN dept_emp de ON e.emp_no = de.emp_no AND de.to_date = ? "
+                            + " LEFT JOIN departments d ON de.dept_no = d.dept_no"
+                            + " LEFT JOIN dept_manager dm ON d.dept_no = dm.dept_no AND dm.to_date = ? "
 
-                            + " WHERE e.emp_no = ? "
-                            + " AND t.to_date = ? "
-                            + " AND s.to_date = ? "
-                            + " AND de.to_date = ? "
-                            + "AND dm.to_date = ? ";
+                            + " WHERE e.emp_no = ? ";
+
 
             try (PreparedStatement pstmt = con.prepareStatement(strSelect)) {
                 // 2. Define your criteria using modern Java Date APIs
                 LocalDate targetDate = LocalDate.of(9999, 1, 1);
 
-                pstmt.setObject(1, ID);
+                pstmt.setObject(1, targetDate);
                 pstmt.setObject(2, targetDate);
                 pstmt.setObject(3, targetDate);
                 pstmt.setObject(4, targetDate);
-                pstmt.setObject(5, targetDate);
+                pstmt.setObject(5, ID);
 
 
                 // Execute SQL statement
@@ -109,8 +109,11 @@ public class App {
 
 
                     return emp;
-                } else
+                } else{
+                    System.out.println("No such employee found");
                     return null;
+                }
+
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -224,8 +227,10 @@ public class App {
     }
 
     public void displayEmployee(Employee emp) {
-        if (emp != null) {
-            Employee emp_mang= getEmployee(emp.manager.emp_no); //Create employee object for manager to obtain manager information
+        if (emp != null && emp.dept_name != null) {
+
+            //Create employee object for manager to obtain manager information
+           /* Employee emp_mang= getEmployee(emp.manager.emp_no);*/
             System.out.println(
                     emp.emp_no + " "
                             + emp.first_name + " "
@@ -233,8 +238,9 @@ public class App {
                             + emp.title + "\n"
                             + "Salary:" + emp.salary + "\n"
                             + emp.dept_name.dept_name + "\n"  //Rename emp.dept_name since it will be confused with dept_name.dept_name
-                            + "Manager ID: " + emp_mang.emp_no +"\n"
-                            + "Manager Name: " + emp_mang.first_name +"\t" + emp_mang.last_name +"\n");
+                           /* + "Manager ID: " + emp_mang.emp_no +"\n"
+                            + "Manager Name: " + emp_mang.first_name +"\t" + emp_mang.last_name +"\n"*/
+                            +"Manager: " + emp.manager.emp_no +"\n");
 
 
 
@@ -254,10 +260,21 @@ public class App {
      * @param employees The list of employees to print.
      */
     public void printSalaries(ArrayList<Employee> employees) {
+
+        // Check employees is not null
+        if (employees == null)
+        {
+            System.out.println("No employees");
+            return;
+        }
+
         // Print header
         System.out.println(String.format("%-10s %-15s %-20s %-8s", "Emp No", "First Name", "Last Name", "Salary"));
         // Loop over all employees in the list
         for (Employee emp : employees) {
+            if (emp == null)
+                continue;
+
             String emp_string =
                     String.format("%-10s %-15s %-20s %-8s",
                             emp.emp_no, emp.first_name, emp.last_name, emp.salary);
@@ -276,10 +293,14 @@ public class App {
                     " SELECT d.dept_no AS depart_num, d.dept_name AS depart_name, dm.emp_no AS mang_num"
                     + " FROM departments d, dept_manager dm "
                     + " WHERE d.dept_no = dm.dept_no"
-                    + " AND d.dept_name = ? ";
+                    + " AND d.dept_name = ? "
+                            + " AND dm.to_date = ? ";
 
             try( PreparedStatement pstmt = con.prepareStatement(strSelect)){
+                LocalDate targetDate = LocalDate.of(9999, 1, 1);
+
                 pstmt.setObject(1, dept_name);
+                pstmt.setObject(2, targetDate);
 
                 ResultSet rset = pstmt.executeQuery();
                 if (rset.next()){
@@ -293,7 +314,7 @@ public class App {
 
                     return deptmt;
                 }else{
-
+                    System.out.println("Employee ID not found!!!");
                     return null;
                 }
 
@@ -371,35 +392,70 @@ public class App {
     }
 
 
+
+    public void addEmployee(Employee emp)
+    {
+        try
+        {
+            Statement stmt = con.createStatement();
+            String strUpdate =
+                    "INSERT INTO employees (emp_no, first_name, last_name, birth_date, gender, hire_date)"
+            + " VALUES ( ?, ?, ?, ?, ?, ?)";
+            try(PreparedStatement pstmt = con.prepareStatement(strUpdate)){
+                LocalDate targetDate = LocalDate.of(9999, 1, 1);
+                pstmt.setInt(1, emp.emp_no);
+                pstmt.setString(2, emp.first_name);
+                pstmt.setString(3, emp.last_name);
+                pstmt.setObject(4, targetDate);
+                pstmt.setString(5, String.valueOf('M'));
+                pstmt.setObject(6, targetDate);
+
+                // Execute the insert and get the number of affected rows
+                int rowsInserted = pstmt.executeUpdate();
+                System.out.println("Rows inserted: " + rowsInserted);
+                if (emp==null){
+                    System.out.println("Employee emp is empty, cannot update report");
+                }
+            }
+
+            //stmt.execute(strUpdate);
+        }
+        catch (Exception e)
+        {
+            System.out.println(e.getMessage());
+            System.out.println("Failed to add employee");
+        }
+    }
+
+
     public static void main(String[] args) {
-        // Create new Application
+        // Create new Application and connect to database
         App a = new App();
 
-        // Connect to database
-        a.connect();
-        // Get Employee
-       /* Employee emp = a.getEmployee(255530);
-        // Display results
-        a.displayEmployee(emp);*/
+        if(args.length < 1){
+            a.connect("localhost:33060", 30000);
+        }else{
+            a.connect(args[0], Integer.parseInt(args[1]));
+        }
 
-        // a.getSalaryRoleReport("Engineer");
+        /*Department dept = a.getDepartment("Development");
+        ArrayList<Employee> employees = a.getSalariesByDepartment(dept);
 
-        // Extract employee salary information
-       /* ArrayList<Employee> employees = a.getAllSalaries();
+
+        // Print salary report
         a.printSalaries(employees);*/
 
-        Department dpt= a.getDepartment("Sales");
-       // a.printDepartment(dpt);
-        ArrayList<Employee> dept_employees = a.getSalariesByDepartment(dpt);
-        a.printSalaries(dept_employees);
-
-
+        Employee emp = new Employee();
+        emp.emp_no = 1831960;
+        emp.first_name = "Kevin";
+        emp.last_name = "Chalmers";
+        a.addEmployee(emp);
+        Employee emp2 = a.getEmployee(1831960);
+       System.out.println("Employee Number: " +emp2.emp_no);
 
 
         // Disconnect from database
         a.disconnect();
-
-
     }
 
 
